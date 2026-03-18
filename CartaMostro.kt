@@ -10,4 +10,7 @@ class CartaMostro(val nombre: String, val nivel: Int, val atributo: String, val 
 		require(poder >= 0)
 		require(poder % 50 == 0)
 	}
+
+	override fun toString() = nombre
+
 }
