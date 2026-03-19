@@ -45,8 +45,8 @@ El programa usa dos funciones, la función que lee los datos y genera el grafo `
 `bfsTernas()`.  
 
 La función `leerArchivo()` recibe el archivo .csv y por cada línea (carta) crea un objeto *mostro* correspondiente, lo añade al
-grafo como un vértice, y lo conecta a todos los otros vértices (cartas) correspondientes. Itera sobres los vértices una vez y añade
-todos los lados, por lo tanto el orden de la función es O(|V|+|E|).
+grafo como un vértice, revisa a qué cartas las puede conectar y lo hace. En cada iteración dentro del ciclo, itera sobre los vértices,
+luego añade los lados correspondientes, por lo tanto el orden de la función es O(|V|x(|V|+|E|)).
 
 Por otro lado, la función `bfsTernas()` es llamada una vez por cada vértice, y la función utiliza un algoritmo de búsqueda BFS
 modificado para que tenga dos características particulares: que termine su búsqueda después de revisar la tercera capa, y que sea
