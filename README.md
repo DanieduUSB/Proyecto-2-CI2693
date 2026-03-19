@@ -55,7 +55,7 @@ que un BFS normal en muchos casos, pero el hecho de que puede visitar un mismo v
 se considera que estos dos cambios se cancelan y la complejidad se aproxima a la de un BFS estándar, esta siendo O(|V|+|E|).
 Dado que se ejecuta una vez por vértice la complejdad total es O(|V|x(|V|+|E|)).
 
-Así, la complejidad total del programa es O(|V|x(|V|+|E|)) + O(|V|+|E|) = O(|V|x(|V|+|E|)).
+Así, la complejidad total del programa es O(|V|x(|V|+|E|)) + O(|V|x(|V|+|E|)) = O(|V|x(|V|+|E|)).
 
 # Decisiones de Implementación
 + Considerando el requerimiento del enunciado que exigía utilizar un grafo para calcular nuestra solución, decidimos
