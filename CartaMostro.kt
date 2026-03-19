@@ -1,6 +1,6 @@
 // Clase que representa una carta de monstruo en el juego de cartas coleccionables.
-// Al crear una nueva instancia de la clase, se validan que las carcteristicas de la carta sean validas, y las guarda como valores.
-// El array de atributos es una lista que usa la clase para verdificar que el atributo de cada carta sea correcto.
+// Al crear una nueva instancia de la clase, se validan que las características de la carta sean válidas, y las guarda como valores.
+// El array de atributos es una lista que usa la clase para verificar que el atributo de cada carta sea correcto.
 class CartaMostro(private val nombre: String, private val nivel: Int, private val atributo: String, private val poder: Int) {
 	companion object {
 		private val atributos = listOf("AGUA", "FUEGO", "VIENTO", "TIERRA", "LUZ", "OSCURIDAD", "DIVINO")
@@ -14,7 +14,7 @@ class CartaMostro(private val nombre: String, private val nivel: Int, private va
 		require(poder % 50 == 0)
 	}
 
-	// Funciones para obtener las caracteristicas de la carta.
+	// Funciones para obtener las características de la carta.
 	fun verNivel() = nivel
 	fun verAtributo() = atributo
 	fun verPoder() = poder

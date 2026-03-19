@@ -1,10 +1,10 @@
 import java.io.File
 import java.io.BufferedReader
 
-// Funcion que le el archivo .csv, crea las cartas y construye un grafo con ellas.
-// El grafo esta definido de tal manera que cada vertice es un monstruo, y dos monstruos estan conectados sii
-// tienen exactamente una caracteristica en comun (nivel, atributo o poder).
-// La funcion retorna el grafo con las cartas, asi como un conjunto que lista todas las cartas añadidas para conveniencia.
+// Función que lee el archivo .csv, crea las cartas y construye un grafo con ellas.
+// El grafo esta definido de tal manera que cada vértice es un monstruo, y dos monstruos estan conectados sii
+// tienen exactamente una caracteréstica en común (nivel, atributo o poder).
+// La función retorna el grafo con las cartas, asi como un conjunto que lista todas las cartas añadidas para conveniencia.
 fun leerArchivo(archivo: File): Pair<Grafo<CartaMostro>,MutableSet<CartaMostro>> {
 	val bufferedReader = archivo.bufferedReader()
 	var linea = bufferedReader.readLine()
@@ -14,13 +14,13 @@ fun leerArchivo(archivo: File): Pair<Grafo<CartaMostro>,MutableSet<CartaMostro>>
 	}
 
 	linea = bufferedReader.readLine()
-	//Crea el grafo de mosntruos.
+	//Crea el grafo de monstruos.
 	val cartas = ListaAdyacenciaGrafo<CartaMostro>()
 	//Variable que contiene las cartas ingresadas al grafo
 	val listaCartas: MutableSet<CartaMostro> = mutableSetOf()
 	var numeroLinea = 1
-	// Loop que lee cada linea del archivo, crea la carta correspondiente, y la agrega al grafo.
-	// Tambien verifica que el formato y propiedades de cada linea sea correcto.
+	// Loop que lee cada línea del archivo, crea la carta correspondiente, y la agrega al grafo.
+	// Tambien verifica que el formato y propiedades de cada línea sea correcto.
 	while (linea != null) {
 		val lineaElementos = linea.split(",")
 		if (lineaElementos.size != 4) {
@@ -38,7 +38,7 @@ fun leerArchivo(archivo: File): Pair<Grafo<CartaMostro>,MutableSet<CartaMostro>>
 			val atributo = lineaElementos[2]
 			val poder = lineaElementos[3].toInt()
 
-			// Se crea la carta y se verifica que sus propiedades sean validas.
+			// Se crea la carta y se verifica que sus propiedades sean válidas.
 			val cartaMostro = CartaMostro(nombre, nivel, atributo, poder)
 
 			// Se agrega la carta al grafo.
@@ -49,13 +49,21 @@ fun leerArchivo(archivo: File): Pair<Grafo<CartaMostro>,MutableSet<CartaMostro>>
 			// Se añade la condición de que no se cumplan las 3 condiciones para que solo se conecten las cartas con
 			// exactamente una característica en común.
 			val cartasCualidadUnica = listaCartas.filter {
-				( ( (it.verNivel() == cartaMostro.verNivel()) xor (it.verAtributo() == cartaMostro.verAtributo()) )
-				xor
-				(it.verPoder() == cartaMostro.verPoder()) )
+				(
+					(it.verNivel() == cartaMostro.verNivel())
+					xor
+					(it.verAtributo() == cartaMostro.verAtributo())
+					xor
+					(it.verPoder() == cartaMostro.verPoder())
+				)
 				&&
-				!(it.verNivel() == cartaMostro.verNivel() && it.verAtributo() == cartaMostro.verAtributo()
-				&&
-				it.verPoder() == cartaMostro.verPoder())
+				!(
+					it.verNivel() == cartaMostro.verNivel()
+					&&
+					it.verAtributo() == cartaMostro.verAtributo()
+					&&
+					it.verPoder() == cartaMostro.verPoder()
+				)
 			}
 
 			// Se conectan las cartas validas.
@@ -115,23 +123,28 @@ fun main(args: Array<String>) {
 		error("Debe indicar un nombre de archivo como único argumento")
 	}
 
-	val archivo = File(args[0])
+	try {
+		val archivo = File(args[0])
 
-	// Se lee el archivo, se construye el grafo, y se obtiene la lista de cartas.
-	val (cartas, listaCartas) = leerArchivo(archivo)
+		// Se lee el archivo, se construye el grafo, y se obtiene la lista de cartas.
+		val (cartas, listaCartas) = leerArchivo(archivo)
 
-	// Conjunto que contendra todas las ternas que se pueden formar a partir de cada carta en el grafo.
-	var cadenas: Set<Array<CartaMostro>> = mutableSetOf()
+		// Conjunto que contendra todas las ternas que se pueden formar a partir de cada carta en el grafo.
+		var cadenas: Set<Array<CartaMostro>> = mutableSetOf()
 
-	// Ejecutamos BFS para cada carta del grafo para consegur todas las ternas validas posibles.
-	for (carta in listaCartas) {
-		val nuevasCadenas = bfsTernas(cartas,carta)
-		cadenas = cadenas.union(nuevasCadenas)
+		// Ejecutamos BFS para cada carta del grafo para consegur todas las ternas validas posibles.
+		for (carta in listaCartas) {
+			val nuevasCadenas = bfsTernas(cartas,carta)
+			cadenas = cadenas.union(nuevasCadenas)
+		}
+
+		// Imprimimos las ternas obtenidas.
+		for (cadena in cadenas) {
+			println(cadena.joinToString(" "))
+		}
+	} catch (e: java.io.FileNotFoundException) {
+		error("Debe indicar el nombre de un archivo existente")
+	} catch (e: Exception) {
+		error("Archivo inválido. Abortando")
 	}
-
-	// Imprimimos las ternas obtenidas.
-	for (cadena in cadenas) {
-		println(cadena.joinToString(" "))
-	}
-
 }
