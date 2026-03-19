@@ -30,30 +30,30 @@ kotlin instalado):
 ```
 # Lógica del Programa
 Al recibir los datos el programa los lee, verifica que todos sean válidos, y procede a crear un grafo no dirigdo basado en listas
-de adyacencias definido de la siguiente manera: los vertices representan los distintos mostros del maso y dos vertices estan 
+de adyacencias definido de la siguiente manera: los vértices representan los distintos mostros del maso y dos vértices estan 
 conectados si sus mostros correspondientes comparten exactamente un atributo. 
 
-Una vez creado el grafo, programa procede a ejecutar un BFS modificado que solo busca 3 capas de profundidad sobre cada vertice,
-con el proposito de encontrar todas las cadenas de longitud 3 que existen en el grafo, las busca todas porque considerando la 
-definiciòn del grafo, cada camino de longitud 3 en el grafo debe ser una terna de mostros valida. Todas las cadenas encontradas se 
+Una vez creado el grafo, el programa procede a ejecutar un BFS modificado que solo busca 3 capas de profundidad sobre cada vértice,
+con el propósito de encontrar todas las cadenas de longitud 3 que existen en el grafo, las busca todas porque considerando la 
+definición del grafo, cada camino de longitud 3 en este debe ser una terna de mostros válida. Todas las cadenas encontradas se
 guardan en un conjunto solución para garantizar que no hayan cadenas repetidas.
 
-Una vez finalizada la búsqueda el programa imprime por la salida estandar todas las ternas encontradas.
+Una vez finalizada la búsqueda el programa imprime por la salida estándar todas las ternas encontradas.
 
 # Análisis de Complejidad
-El programa usa dos funciones, la función que lee los datos y genera el grafo `leerArchivo()`, y la fución que realiza la búsqueda
+El programa usa dos funciones, la función que lee los datos y genera el grafo `leerArchivo()`, y la función que realiza la búsqueda
 `bfsTernas()`.  
 
-La función `leerArchivo()` recibe el archivo .csv y por cada linea (carta) crea un objeto *mostro* correspondiente, lo añade al
-grafo como un vértice, y lo conecta a todos los otros vértices (cartas) correspondietes. Itera sobres los vertices una vez y añade
-todas los lados, por lo tanto el orden de la función es O(|V|+|E|).
+La función `leerArchivo()` recibe el archivo .csv y por cada línea (carta) crea un objeto *mostro* correspondiente, lo añade al
+grafo como un vértice, y lo conecta a todos los otros vértices (cartas) correspondientes. Itera sobres los vértices una vez y añade
+todos los lados, por lo tanto el orden de la función es O(|V|+|E|).
 
-Por otro lado, la función `bfsTernas()` es llamada una vez por cada vertice, y la función utiliza un algoritmo de búsqueda BFS
-modificado para que tenga dos características particulares, que termine su búsqueda después de revisar la tercera capa, y que sea
+Por otro lado, la función `bfsTernas()` es llamada una vez por cada vértice, y la función utiliza un algoritmo de búsqueda BFS
+modificado para que tenga dos características particulares: que termine su búsqueda después de revisar la tercera capa, y que sea
 capaz de revisar vértices previamente visitados otra vez. La limitación de 3 capas debería hacer que el algoritmo sea más rápido
 que un BFS normal en muchos casos, pero el hecho de que puede visitar un mismo vértice varias veces puede hacerlo más lento,
-se considera que estos dos cambios de cancelan y la complejidad se aproxima a la de un BFS estanar, esta siendo O(|V|+|E|),
-consderando que se ejecuta una vez por vértice la complejdad total es O(|V|x(|V|+|E|)).
+se considera que estos dos cambios se cancelan y la complejidad se aproxima a la de un BFS estándar, esta siendo O(|V|+|E|).
+Dado que se ejecuta una vez por vértice la complejdad total es O(|V|x(|V|+|E|)).
 
 Así, la complejidad total del programa es O(|V|x(|V|+|E|)) + O(|V|+|E|) = O(|V|x(|V|+|E|)).
 
@@ -67,5 +67,5 @@ Así, la complejidad total del programa es O(|V|x(|V|+|E|)) + O(|V|+|E|) = O(|V|
   la creación del grafo, se garantiza que toda las cadenas de longitud 3 encontradas dentro del grafo son ternas válidas.
 + Este programa hace mucho uso de la estructura de datos `set` debido a que nos ofrece una manera eficiente y conveniente de
   garantizar que no hayan soluciones repetidas.
-+ Al realizar la búsqueda sobre cada vértice, garantizamos encontrar todas las permutaciones posibles de cartas validas que puedan
++ Al realizar la búsqueda sobre cada vértice, garantizamos encontrar todas las permutaciones posibles de cartas válidas que puedan
   existir dentro del grafo.
