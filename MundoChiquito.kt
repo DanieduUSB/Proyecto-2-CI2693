@@ -45,6 +45,9 @@ fun leerArchivo(archivo: File): Pair<Grafo<CartaMostro>,MutableSet<CartaMostro>>
 			cartas.agregarVertice(cartaMostro)
 
 			// Se buscan las cartas que cumplan la condición de compartir exactamente una característica.
+			// Se hace uso de a función xor para verificar que se cumpla un número impar de condiciones (1 o 3)
+			// Se añade la condición de que no se cumplan las 3 condiciones para que solo se conecten las cartas con
+			// exactamente una característica en común.
 			val cartasCualidadUnica = listaCartas.filter {
 				( ( (it.verNivel() == cartaMostro.verNivel()) xor (it.verAtributo() == cartaMostro.verAtributo()) )
 				xor
@@ -78,6 +81,8 @@ fun leerArchivo(archivo: File): Pair<Grafo<CartaMostro>,MutableSet<CartaMostro>>
 // Variación de BFS que se limita a buscar cadenas de longitud 3 y permite visitar vertices repetidos. 
 // Retorna un conjunto con todas las cadenas de longitud 3 que se pueden formar a partir de la carta dada.
 fun bfsTernas(cartas: Grafo<CartaMostro>, primeraCarta: CartaMostro): MutableSet<Array<CartaMostro>> {
+	// Inicializamos las variables usuales para un BFS, con exclusión de la variable visitados
+	// debido a que queremos que el algoritmo visite el mismo vertice varias veces si es posible.
 	val cola = ArrayDeque<Array<CartaMostro>>()
 	val primeraCadena = arrayOf(primeraCarta)
 	cola.addLast(primeraCadena)
@@ -85,6 +90,8 @@ fun bfsTernas(cartas: Grafo<CartaMostro>, primeraCarta: CartaMostro): MutableSet
 	val cadenas: MutableSet<Array<CartaMostro>> = mutableSetOf()
 	while (cola.isNotEmpty()) {
 		val cadena = cola.removeFirst()
+		// Añadimos una condición adicional donde si econtramos una cadena de longitud 3, la añadimos a
+		// la lista de cadenas validas y terminamos la busqueda de esta cadena.
 		if (cadena.size == 3) {
 			cadenas.add(cadena)
 			continue
